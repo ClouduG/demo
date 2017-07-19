@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style type="text/css">
+		#box{
+			width: 100px;
+			height: 100px;
+			background: mediumvioletred;
+			opacity: 1;		
+			position: absolute;
+			left: 300px;
+		}
+		#btn{
+			margin-top: 120px;
+		}
+	</style>
+	<script type="text/javascript">
+		window.onload = function(){
+			var oBox = document.getElementById('box');
+			var oBtn = document.getElementById('btn');
+			var timer = null;
+			
+			
+			function animate(obj,json,sp,fn){
+				var isFinish = true;
+				var iSpeed = 0;
+				clearInterval(obj.timer);			
+				obj.timer = setInterval(function(){
+					isFinish = true;
+					for(var k in json){
+						if(k == 'opacity'){
+							iSpeed = ((json[k] - getStyle(obj,k))*100) / 12;
+						}else{
+							iSpeed = (json[k] - getStyle(obj,k)) / 12;
+						}
+						
+						iSpeed = iSpeed > 0 ? Math.ceil(iSpeed):Math.floor(iSpeed);
+
+						if(getStyle(obj,k) != json[k]){
+//							clearInterval(timer);
+//							isFinish = true;
+							isFinish = false;
+							if(k == 'opacity'){
+								obj.style[k] = ((getStyle(obj,k)*100) + iSpeed)/100;
+							}else{
+								obj.style[k] = getStyle(obj,k) + iSpeed + 'px';
+							}	
+						}						
+					}
+					if(isFinish){
+						clearInterval(obj.timer);
+						if(fn){
+							fn();
+						}
+//						fn&&fn();
+					}
+				},sp);
+			}			
+			function getStyle(obj,name){
+				var style = obj.currentStyle ? obj.currentStyle[name]:getComputedStyle(obj)[name];
+//				return parseInt(style);	
+				if(name == 'opacity'){
+					return style;
+				}else{
+					return parseInt(style);	
+				}
+			}
+			function getStyle1(obj,name){ //背景
+				var style = obj.currentStyle ? obj.currentStyle[name]:getComputedStyle(obj)[name];
+				return style;
+			}			
+			oBtn.onclick = function(){
+				animate(oBox,{'left':500,'width':200,'height':150,'border-radius':30,'opacity':0.5},30,function(){
+					alert(123);
+				});
+			}			
+		}
+	</script>
+	<body>
+		<div id="box">
+			
+		</div>
+		<input type="button" id="btn" value="点击"/>		
+	</body>
+</html>

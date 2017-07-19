@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+    
+	<script>
+		 window.onload=function(){
+
+          var oBtn=document.getElementById('btn');
+          var oContent=document.getElementById('content');
+
+          oBtn.onclick=function(){
+
+            Jsonp('https://api.douban.com/v2/book/search',{q:'javascript',count:100},function(d){
+            	for(var i=0; i<d.books.length;i++)
+            	{
+
+            	  oContent.innerHTML+='<li>'+
+			 '<img src="'+d.books[i].image+'"/>'+
+			 '<h1>'+d.books[i].title+'</h1>'+
+			 '<p>'+d.books[i].summary+'</p>'+
+          '</li>' 
+            	}
+            },'callback');
+            
+
+          }
+
+         function Jsonp(url,data,success,cbName)
+         {
+             //1:定义一个函数
+             var fnName='jsonP'+Math.random();
+                 fnName=fnName.replace('.','')
+                 
+                 data[cbName]=fnName; //{q:,count:,callback:fnName}
+
+                window[fnName]=function(d){
+                  success(d);
+                  oHead.removeChild(oScript); 
+                }
+            var oScript=document.createElement('script');
+               oScript.src=json2url();
+               var oHead=document.getElementsByTagName('head')[0];
+               oHead.appendChild(oScript);
+            function json2url()
+            {
+              var arr=[];
+              for(var i in data){     //q=javascript&count=1
+                 arr.push(i+'='+encodeURI(data[i]));   
+              }
+              var str=arr.join('&');
+              return URL=url+'?'+str;
+
+            }
+
+         }
+
+
+
+         /*
+           url :请求地址
+           data： {q:javascript,count:1 }
+           success :匿名函数  请求成功之后调用
+           cbName：回调函数名字
+
+
+
+         */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		 	// window.fn2=function(d){
+    //            alert(d);
+		  //   }
+    //       var oBtn=document.getElementById('btn');
+
+    //       oBtn.onclick=function(){
+            
+    //         var  oScript=document.createElement('script');
+    //              oScript.src='https://api.douban.com/v2/book/search?q=javascript&count=1&callback=fn2';
+
+    //             var oHead=document.getElementsByTagName('head')[0];
+    //                 oHead.appendChild(oScript);
+    //       }
+
+		 }
+	</script>
+	
+</head>
+<body>
+	<input type="button" value="获取数据" id="btn">
+	<ul id="content">
+		
+	</ul>
+</body>
+</html>

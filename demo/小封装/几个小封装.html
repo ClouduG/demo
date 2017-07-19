@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			.box{
+				width: 100px;
+				height: 100px;
+				background: red;
+			}
+		</style>
+		<script>
+			window.onload = function(){
+				var aBox = getClass(document,'box');
+				var oBox = aBox[0];
+//				alert(getStyle1(oBox,'backgroundColor'));
+				animate(oBox,{width:200,'border-radius':30,'opacity':0.5},function(){});
+				function getClass(parent,name){
+					var arr = [];
+					var aTag =parent.getElementsByTagName('*');
+					for(var i = 0 ; i < aTag.length ; i++){
+						if(aTag[i].className == name){
+							arr.push(aTag[i]);
+						}
+					}
+					return arr;
+				}
+				function getStyle(obj,name){
+					if(obj.currentStyle){
+						var value = obj.currentStyle[name];
+						
+					}else{
+						var value =  getComputedStyle(obj)[name];
+					}
+					return parseInt(value);
+				}
+				function getStyle1(obj,name){
+					if(obj.currentStyle){
+						var value = obj.currentStyle[name];
+						
+					}else{
+						var value =  getComputedStyle(obj)[name];
+					}
+					return value;
+				}
+				function animate(obj,json,fn){
+					clearInterval(obj.timer);
+					obj.timer = setInterval(function(){
+						var isFinish = true;
+						for( var k in json){
+							if(k == 'opacity'){
+								var iSpeed = (json[k]*100-getStyle(obj,k))/7;
+							}else{
+								var iSpeed = (json[k]-getStyle(obj,k))/7;
+							}
+							if(iSpeed > 0){
+								iSpeed = Math.ceil(iSpeed);
+							}else{
+								iSpeed = Math.floor(iSpeed);
+							}
+							
+							if(k == 'opacity'){
+								if(getStyle(obj,k) != json[k]*100){
+									isFinish = false;
+									obj.style[k] = (getStyle(obj,k) + iSpeed)/100;
+								}
+							}else{
+								if(getStyle(obj,k) != json[k]){
+									isFinish = false;
+									obj.style[k] = getStyle(obj,k) + iSpeed +'px';
+								}
+							}
+							
+						}
+						if(isFinish){
+							clearInterval(obj.timer);
+							if(fn){
+								fn();
+							}
+						}
+					},40);
+				}
+				function addListener(obj,oEvent,fn){
+					if(obj.attachEvent){
+						obj.attachEvent('on'+oEvent,fn);
+					}else{
+						obj.addEventListener(oEvent,fn);
+					}
+				}
+				function drag(obj){
+					if(isFinish){
+						obj.onmousedown = function(ev){
+						document.title = a;
+						var before_left1 = oBox.offsetLeft;
+						var before_top1 = oBox.offsetTop;
+						var before_left2 = oBox1.offsetLeft;
+						var before_top2 = oBox1.offsetTop;
+						var oEvent = ev || event;
+//						var isTrue = false;
+						var x = oEvent.clientX - obj.offsetLeft;
+						var y = oEvent.clientY - obj.offsetTop;
+						
+						document.onmousemove = function(ev){
+							var oEvent = ev || event;
+							obj.style.left = oEvent.clientX - x + 'px';
+							obj.style.top = oEvent.clientY - y + 'px';
+							
+						}
+						document.onmouseup = function(ev){
+							
+							var oEvent = ev || event;
+							document.onmousemove = null;
+							
+							
+							if(listen(oBox,oBox1)){
+								
+								animate(oBox,{left:before_left2,top:before_top2},function(){
+									
+									
+								});
+								animate(oBox1,{left:before_left1,top:before_top1},function(){
+									
+									
+								})
+							}
+						}
+						return false;
+					}
+					}
+				}
+				function listen(obj1,obj2){
+				
+					var l1 = obj1.offsetLeft;
+					var t1 = obj1.offsetTop;
+					var r1 = l1 + obj1.offsetWidth;
+					var b1 = t1 + obj1.offsetHeight;
+					
+					var l2 = obj2.offsetLeft;
+					var t2 = obj2.offsetTop;
+					var r2 = l2 + obj2.offsetWidth;
+					var b2 = t2 + obj2.offsetHeight;
+					
+					var l = l2 - obj1.offsetWidth;
+					var t = t2 - obj1.offsetHeight;
+					var r = r2 + obj1.offsetWidth;
+					var b = b2 + obj2.offsetHeight;
+					
+					if(l1>l && t1>t && r1<r && b1<b	){
+						return true;
+					}else{
+						return false;
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div class="box"></div>
+		getStyle     ->     获取元素的属性值
+		getClass     ->     通过类名获取元素对象
+		animate      ->     完美运动
+		addListener  ->     事件函数绑定
+		Drag         ->     拖拽
+	</body>
+</html>

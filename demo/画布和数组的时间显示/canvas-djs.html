@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<canvas id="canvas" width="1024" height="768" style="border: 1px solid #aaa;display: block;margin: 10px auto;"></canvas>
+		<script src="js/digit.js"></script>
+		<script type="text/javascript">
+			var c = document.getElementById('canvas');
+			var ctx = c.getContext('2d');
+			var r = 8;//设置显示数字的小球半径
+			var marginT = 60;//设置数字间间隔
+			var marginL = 30;
+			var nowTime = getNowTime();
+			setInterval(function(){
+				rander(ctx);
+				update();
+			},50)						
+			function getNowTime(){//获取当前时间
+				var getTime = new Date();
+				var ret = getTime.getHours()*3600+getTime.getMinutes()*60+getTime.getSeconds();
+				return ret;
+			}
+			function rander(obj){//绘制显示时间
+				obj.clearRect(0,0,1024,768);
+				var h = parseInt(nowTime/3600);//获取时间
+				var m =  parseInt((nowTime-h*3600)/60);
+				var s = nowTime%60;
+				//绘制每一个数字
+				randerDigit(marginL,marginT,parseInt(h/10),obj);//时
+				randerDigit(marginL+15*(r+1),marginT,parseInt(h%10),obj);
+				randerDigit(marginL+30*(r+1),marginT,10,obj);
+				randerDigit(marginL+39*(r+1),marginT,parseInt(m/10),obj);//分
+				randerDigit(marginL+54*(r+1),marginT,parseInt(m%10),obj);
+				randerDigit(marginL+69*(r+1),marginT,10,obj);
+				randerDigit(marginL+78*(r+1),marginT,parseInt(s/10),obj);//秒
+				randerDigit(marginL+93*(r+1),marginT,parseInt(s%10),obj);
+			}
+			function update(){//变化时间
+				var nextTime =  getNowTime();
+				var nexth = parseInt(nextTime/3600);
+				var nextm = parseInt((nextTime-nexth*3600)/60);
+				var nexts = nextTime%60;
+				var h = parseInt(nowTime/3600);
+				var m = parseInt((nowTime-h*3600)/60);
+				var s = nowTime%60;
+				if(nexts!=s){
+					nowTime = nextTime;
+				}
+			}
+			function randerDigit(x,y,num,obj){
+				for(var i=0;i<digit[num].length;i++){//获取数组第num个
+					for(var j=0;j<digit[num][i].length;j++){
+						if(digit[num][i][j]==1){//如果数组中第num个点阵中数字为1就绘制一个圆，以显示出具体数字
+							obj.beginPath();
+							obj.fillStyle = 'blue';
+							obj.arc(x+j*2*(r+1)+(r+1),y+i*2*(r+1)+(r+1),r,0,Math.PI*2,false);
+							obj.closePath();
+							obj.fill();							
+						}
+					}
+				}
+			}			
+		</script>
+	</body>
+</html>

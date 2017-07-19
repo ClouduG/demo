@@ -1,0 +1,292 @@
+*{
+	margin: 0;
+	padding: 0;
+	font-size: 14px;
+}
+body{
+	background: #26ae42;
+}
+ul li{
+	list-style: none;
+}
+.clear{
+	clear: both;
+}
+#wrp{
+	width: 802px;
+	margin:0 auto;
+}
+#title{
+	width: 800px;
+	height: 80px;
+	border: 1px solid #aea8ac;
+	background: #3b5c92;
+}
+#title p{
+	float: left;
+}
+#title ul{
+	float: right;
+	margin: 20px 10px 0 0;
+}
+#title p{
+	font-size: 30px;
+	line-height: 80px;
+	padding-left: 20px;
+	color: white;
+	width: 212px;
+}
+#title ul{
+	width: 114px;
+	height: 14px;
+	padding: 5px 0 5px 5px;
+	background: white;
+}
+#title li{
+	width: 14px;
+	height: 14px;
+	line-height: 14px;
+	float: left;
+	margin-right: 5px;
+	font-size: 14px;
+	text-align: center;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+}
+#title .l1{
+	background: #3b5c92;
+}
+#title .l2{
+	background: #b33cd4;
+}
+#title .l3{
+	background: #e11f5c;
+}
+#title .l4{
+	background: #0bbed4;
+}
+#title .l5{
+	background: #f5ab00;
+}
+#title .l6{
+	background: #afd202;
+}
+/*nav开始*/
+#nav{
+	width: 100%;
+	height: 34px;
+	margin-top: 10px;
+	/*overflow: hidden;*/
+	background: #3b5c92;
+}
+#nav .list{
+	height: 20px;
+	margin-top: 7px;
+	padding-left: 10px;
+}
+#nav li{
+	cursor: pointer;
+}
+.list>li{
+	float: left;
+	line-height: 10px;
+	padding: 5px 10px;
+	margin-right: 14px;
+	background: #ebf2eb;
+	font-size: 14px;
+	color: #3b5c92;
+	margin-top: 7px;
+	text-align: center;
+	position: relative;
+}
+.list>li:hover{
+	background: #F5AB00;
+}
+.sublist{
+	position: absolute;
+	width: 48px;
+	left: 0px;
+	top: 21px;
+	z-index: 2;
+	height: 0px;
+}
+.sublist li{
+	height: 14px;
+	padding-top: 5px;
+	border: 1px solid #B7BCB5;
+	border-top: none;
+	background: #F5AB00;
+	transform: rotateY(-90deg);
+    transition: opacity .4s, transform .5s;
+}
+.list>li:hover ul li, .list>li:focus ul li {
+	opacity: 1;
+	transform: none;
+}
+.sublist>li:nth-child(1) {
+    transition-delay: 0ms;
+}
+.sublist>li:nth-child(2) {
+    transition-delay: 100ms;
+}
+.sublist>li:nth-child(3) {
+    transition-delay: 200ms;
+}
+.sublist>li:nth-child(4) {
+    transition-delay: 300ms;
+}
+.sublist>li:hover{
+	border-radius: 5px;
+	background: #B33CD4;
+}
+/*content开始*/
+#content{
+	width: 800px;
+	margin-top: 10px;
+	border: 1px solid #aea8ac;
+	overflow: hidden;
+	background: white;
+	position: relative;
+}
+#content .top{
+	width: 790px;
+	height: 26px;
+	padding-left: 10px;
+	line-height: 26px;
+	color: #fff7ff;
+	background: #3b5c92;
+}
+#content .left{
+	width: 380px;
+	padding: 10px;
+	float: left;
+	position: relative;
+}
+#content .left1{
+	width: 310px;
+	height: 310px;
+	border: 1px solid #bababa;
+	position: relative;
+}
+.left2 img{
+	display: block;
+}
+.left2{
+	width: 100px;
+	margin: 10px 0 0 105px;
+}
+.left3{
+	margin-top: 10px;
+}
+.left3 img{
+	margin-right: 5px;
+	border: 1px solid #BABABA;
+}
+.left4{
+	margin-top: 20px;
+	font-size: 14px;
+}
+.left4 .btn li{
+	float: left;
+	margin-right: 5px;
+	border: 1px solid #898989;
+	border-bottom: none;
+	background: #f6eee1;
+	color: #2f3a40;
+	padding: 0 5px;
+	cursor: pointer;
+}
+.left4 .btn .active{
+	background: #6e86b6;
+	color: white;
+}
+.left4_c li{
+	border: 1px solid #898989;
+	display: none;
+}
+.left4_c .show{
+	display: block;
+}
+.right{
+	width: 390px;
+	float: right;
+	padding: 10px 10px 10px 0;
+}
+.r1{
+	color: #2f2f2f;
+}
+.r1 p{
+	font-weight: bold;
+}
+.r2{
+	font-weight: bold;
+}
+.r2 .span2{
+	text-decoration: line-through;
+}
+.r2 .ul2 li{
+	float: left;
+	margin-right: 10px;
+	border: 1px solid #b7bcb5;
+	cursor: pointer;
+}
+.r2 .ul2 .active{
+	border: 2px solid #F5AB00;
+}
+.r2 .ul2 li img{
+	display: block;
+}
+.r3,.r4,.r5,.r6{
+	font-weight: bold;
+	margin-top: 15px;
+}
+.r3{
+	font-weight: bold;
+}
+.r3 li{
+	float: left;
+	border: 1px solid #a8a8a8;
+	padding: 0px 15px;
+	margin-right: 10px;
+	cursor: pointer;
+}
+.r3 .active{
+	background: #EBF2EB;
+}
+.r6 li{
+	width: 40px;
+	height: 20px;
+	float: left;
+	border: 1px solid #AEA8AC;
+	cursor: pointer;
+}
+.r7{
+	margin-top: 30px;
+}
+.r7 img{
+	cursor: pointer;
+}
+/*放大镜*/
+.small{
+	width: 100px;
+	height:100px;
+	border: 1px solid #BABABA;
+	position: absolute;
+	background: url(../img/fdjbg.png);
+	cursor: move;
+	display: none;
+}
+.big{
+	width: 267px;
+	height:267px;
+	border: 1px solid #BABABA;
+	position: absolute;
+	left: 350px;
+	top: 15px;
+	overflow: hidden;
+	display: none;
+}
+.big img{
+	position: absolute;
+}

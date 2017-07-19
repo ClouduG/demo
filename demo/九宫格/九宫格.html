@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0px;
+				padding: 0px;
+			}
+			ul li{
+				list-style: none;
+			}
+			ul{
+				width: 810px;
+				height: 480px;
+				margin: 0 auto;
+				padding: 20px 0 0 20px;
+				background: #eaa0dd;
+				position: relative;
+				top: 60px;
+			}
+			ul li{
+				width: 250px;
+				height: 141px;
+				float: left;
+				margin: 0px 20px 20px 0;				
+			}
+			ul .active{
+				opacity: 0.5;
+			}
+			ul li img{
+				width: 250px;
+			}
+		</style>
+	</head>
+	<script type="text/javascript">
+		window.onload = function(){
+			var aLi = document.getElementsByTagName('li');
+			var pos = [];
+			var timer = null;
+			var iNow = -1;
+			var c = 0;
+			var z_index = 1;
+			
+			for(i = 0;i < aLi.length;i++){
+				drag(aLi[i]);
+			}
+			for(i = 0;i < aLi.length;i++){
+				pos[i] = {left:aLi[i].offsetLeft,top:aLi[i].offsetTop};
+			}
+			for(i = 0;i < aLi.length;i++){
+				aLi[i].style.position = 'absolute';
+				aLi[i].style.left = pos[i].left + 'px';
+				aLi[i].style.top = pos[i].top + 'px';
+				aLi[i].style.margin = 0;
+				aLi[i].index = i;
+			}
+			function drag(obj){
+				obj.onmousedown = function(ev){
+					iNow = -1;
+					
+					var oEv = ev || event;
+					var x = oEv.clientX - obj.offsetLeft;
+					var y = oEv.clientY - obj.offsetTop;
+				
+					document.onmousemove = function(ev){
+						iNow = -1;
+						c = 9999999999;
+						obj.style.zIndex = z_index++;
+						var oEv = ev || event;
+						obj.style.left = oEv.clientX - x + 'px';
+						obj.style.top = oEv.clientY - y + 'px';
+						
+						for(i = 0;i < aLi.length;i++){
+							aLi[i].className = '';
+							if(obj != aLi[i]){
+								if(crash(obj,aLi[i])){		
+									var a = obj.offsetLeft - aLi[i].offsetLeft;
+									var b = obj.offsetTop - aLi[i].offsetTop;
+									if(a*a + b*b < c){
+										c = a*a + b*b;
+										iNow = i;
+										
+									}								
+								}
+							}
+						}
+						if(iNow != -1){
+							aLi[iNow].className = 'active';
+						}
+						
+					}
+					document.onmouseup = function(){	
+						var j = null;
+
+						if(iNow != -1){
+							obj.style.zIndex = z_index++;
+							aLi[iNow].style.zIndex = z_index++;
+							aLi[iNow].className = '';
+							animate(obj,pos[aLi[iNow].index],30);
+							animate(aLi[iNow],pos[obj.index],30);	
+							
+							j = obj.index;
+							obj.index = aLi[iNow].index;
+							aLi[iNow].index = j;
+						}else{
+							animate(obj,pos[obj.index],30);
+						}
+						document.onmousemove = null;
+						document.onmouseup = null;
+					}
+					clearInterval(obj.timer);
+					return false;
+				}
+			}
+
+			
+			function crash(obj1,obj2){
+				var l1 = obj1.offsetLeft;
+				var r1 = obj1.offsetLeft + obj1.offsetWidth;
+				var t1 = obj1.offsetTop;
+				var b1 = obj1.offsetTop + obj1.offsetHeight;
+				
+				var l2 = obj2.offsetLeft;
+				var r2 = obj2.offsetLeft + obj2.offsetWidth;
+				var t2 = obj2.offsetTop;
+				var b2 = obj2.offsetTop + obj2.offsetHeight;
+				
+				var l = l2 - obj1.offsetWidth;
+				var r = r2 + obj1.offsetWidth;
+				var t = t2 - obj1.offsetHeight;
+				var b = b2 + obj1.offsetHeight;
+				if(l1 > l && r1 < r && t1 > t && b1 < b ){
+					return true;
+				}else{
+					return false;
+				}		
+			}
+			function animate(obj,json,sp,fn){
+				clearInterval(obj.timer);			
+				obj.timer = setInterval(function(){
+					isFinish = true;
+					for(var k in json){
+						if(k == 'opacity'){
+							iSpeed = ((json[k] - getStyle(obj,k))*100) / 10;
+						}else{
+							iSpeed = (json[k] - getStyle(obj,k)) / 10;
+						}
+						
+						iSpeed = iSpeed > 0 ? Math.ceil(iSpeed):Math.floor(iSpeed);
+
+						if(getStyle(obj,k) != json[k]){
+							isFinish = false;
+							if(k == 'opacity'){
+								obj.style[k] = ((getStyle(obj,k)*100) + iSpeed)/100;
+							}else{
+								obj.style[k] = getStyle(obj,k) + iSpeed + 'px';
+							}	
+						}						
+					}
+					if(isFinish){
+						clearInterval(obj.timer);
+						if(fn){
+							fn();
+						}
+//						fn&&fn();
+					}
+				},sp);
+			}			
+			function getStyle(obj,name){
+				var style = obj.currentStyle ? obj.currentStyle[name]:getComputedStyle(obj)[name];
+				if(name == 'opacity'){
+					return style;
+				}else{
+					return parseInt(style);	
+				}
+			}			
+			
+		}
+	</script>
+	
+	<body>
+		<ul>
+			<li><img src="img/sudoku/1.jpg"/></li>
+			<li><img src="img/sudoku/2.jpg"/></li>
+			<li><img src="img/sudoku/3.jpg"/></li>
+			<li><img src="img/sudoku/4.jpg"/></li>
+			<li><img src="img/sudoku/5.jpg"/></li>
+			<li><img src="img/sudoku/6.jpg"/></li>
+			<li><img src="img/sudoku/7.jpg"/></li>
+			<li><img src="img/sudoku/8.jpg"/></li>
+			<li><img src="img/sudoku/9.jpg"/></li>
+		</ul>		
+	</body>
+</html>
